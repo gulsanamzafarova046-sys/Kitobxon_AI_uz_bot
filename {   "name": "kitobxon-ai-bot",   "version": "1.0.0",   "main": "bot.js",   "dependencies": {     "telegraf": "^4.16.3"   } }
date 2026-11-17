@@ -1,0 +1,30 @@
+const { Telegraf } = require('telegraf');
+const http = require('http');
+
+const bot = new Telegraf(process.env.BOT_TOKEN);
+
+// /start buyrug'i
+bot.start((ctx) => {
+  ctx.reply(
+    "Assalomu alaykum! 📚 Kitobxon AI botiga xush kelibsiz.\n\n" +
+    "Menga o'zingizni qiziqtirgan kitob nomini yozing, men u haqida qisqacha ma'lumot beraman!"
+  );
+});
+
+// Oddiy matn yuborilganda javob berish
+bot.on('text', (ctx) => {
+  const kitobNomi = ctx.message.text;
+  ctx.reply(
+    📖 Siz izlagan kitob: "${kitobNomi}"\n\n +
+    "Tez orada ushbu kitobning qisqacha mazmuni va tahlili shu yerda taqdim etiladi!"
+  );
+});
+
+bot.launch();
+
+// Render Web Service o'chib qolmasligi uchun kichik server
+const PORT = process.env.PORT || 3000;
+http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Kitobxon AI bot ishlamoqda!');
+}).listen(PORT);
